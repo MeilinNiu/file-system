@@ -10,7 +10,7 @@ Directory Structure
 │   ├── file_operations.c  # Main FS code
 │   ├── superblock.c   # Code for initializing the superblock
 │   ├── freeblock.c    # Code for initializing the free block vector
-│   └── inode.c     # Utility functions for file system management
+│   └── inode.c     # Code for initializing inode and directory entry
 │
 ├── /test              # Contains test programs
 │   ├── test01.c       # Test program for disk operations
