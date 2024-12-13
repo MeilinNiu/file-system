@@ -31,3 +31,8 @@ void write_inode(FILE *disk, uint inode_number, Inode *inode) {
     // Write the updated inode structure to the disk
     fwrite(inode, sizeof(Inode), 1, disk);
 }
+
+// Function to delete an inode by its inode number
+void delete_inode(FILE *disk, uint inode_number) {
+
+}

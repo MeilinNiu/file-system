@@ -1,3 +1,6 @@
+#ifndef INODE_H
+#define INODE_H
+
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
@@ -36,7 +39,7 @@ typedef struct {
 Inode Table structure
     inodes: Array of inodes
 
-size of InodeTable is 8192 bytes, taking up 16 blocks (512 bytes per block)
+size of InodeTable is NUM_INODES*sizeof(Inode) = 8192 bytes, taking up 16 blocks (512 bytes per block)
 */
 typedef struct {
     Inode inodes[NUM_INODES];
@@ -57,3 +60,6 @@ typedef struct {
 void init_inode(FILE *disk, uint inode_number);
 void read_inode(FILE *disk, uint inode_number, Inode *inode);
 void write_inode(FILE *disk, uint inode_number, Inode *inode);
+void delete_inode(FILE *disk, uint inode_number);
+
+#endif
