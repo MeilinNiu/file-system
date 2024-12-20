@@ -6,19 +6,30 @@ void init_inode(FILE *disk, uint inode_number) {
     Inode inode;
     memset(&inode, 0, sizeof(Inode));
 
-    // Assign the inode number (we might add more initialization logic later)
+    // Initialize the features of the inode
     inode.size = 0;
+    inode.mode = 0;
+    inode.uid = 0;
+    inode.atime = 0;
+    // Set the current creation time to the ctime,
+    // representing the number of seconds since january 1st 1970 of the last time this inode was created.
+    inode.ctime = (uint32_t)time(NULL);
+    inode.mtime = 0;
+    inode.atime = 0;
+
 
     // Set the position in the disk for the inode based on the inode_number
     fseek(disk, START_INODE_BLOCK * sizeof(Inode) + inode_number * sizeof(Inode), SEEK_SET);
     fwrite(&inode, sizeof(Inode), 1, disk);  // Write the inode to the disk
 }
 
+
+
 // Function to read an inode from the disk
-void read_inode(FILE *disk, uint inode_number, Inode *inode) {
+void read_inode(FILE *disk, uint inode_number) {
     // Calculate the correct position in the disk for the given inode_number
     fseek(disk, START_INODE_BLOCK * sizeof(Inode) + inode_number * sizeof(Inode), SEEK_SET);
-
+    
     // Read the inode data into the provided inode structure
     fread(inode, sizeof(Inode), 1, disk);
 }
@@ -36,3 +47,4 @@ void write_inode(FILE *disk, uint inode_number, Inode *inode) {
 void delete_inode(FILE *disk, uint inode_number) {
 
 }
+

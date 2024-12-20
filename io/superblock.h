@@ -8,8 +8,9 @@
 #define MAX_NUM_BLOCKS 4096 // Total number of blocks on the disk
 #define BLOCK_SIZE 512  // Size of each block (in bytes)
 #define NUM_INODES 128  // Assume we have 128 inodes
-#define NUM_DIRECT_BLOCKS 8  // Assume the number of direct pointers in the inode is 8
-#define MAX_LEN_FILENAME 31  // Maximum length of a filename
+#define NUM_DIRECT_BLOCKS 10  // Assume the number of direct pointers in the inode is 8
+
+#define START_INODE_BLOCK 10  // The block number where the inode table starts
 
 /*
 Superblock structure

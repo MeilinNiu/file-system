@@ -8,25 +8,12 @@
 
 void create_file(FILE *disk, const char *file_name, uint16_t userId, uint16_t mode) {
     // Check the iBitmap to find an available inode
-    iBitmap iBitmap;
-    fseek(disk, BLOCK_SIZE, SEEK_SET);
-    fread(&iBitmap, sizeof(iBitmap), 1, disk);
-
-    int inode_number = -1;
-    for (int i = 0; i < NUM_INODES; i++) {
-        if (!(iBitmap.data[i / 8] & (1 << (i % 8)))) {
-            inode_number = i;
-            break;
-        }
-    }
-
+    int inode_number = find_available_inode(disk);
     if (inode_number == -1) {
-        printf("Error: No available inodes.\n");
         return;
-    }
-
+}
     // Allocate an inode for the file
-    Inode inode;
+    InodeTable inodeTable;
     memset(&inode, 0, sizeof(Inode));
     inode.uid = userId;
     inode.mode = mode;
@@ -42,7 +29,7 @@ void create_file(FILE *disk, const char *file_name, uint16_t userId, uint16_t mo
     // In a real implementation, you would need to handle directories properly
 
     // Check the dBitmap to find an available data block
-    Bitmap dBitmap;
+    dBitmap dBitmap;
     fseek(disk, 2 * BLOCK_SIZE, SEEK_SET);
     fread(&dBitmap, sizeof(Bitmap), 1, disk);
 
@@ -95,9 +82,9 @@ void write_file(FILE *disk, const char *file_path, const char *data, uint16_t us
     }
 
     // Locate the specific data block and write data to free blocks sequentially
-    Bitmap dBitmap;
+    dBitmap dBitmap;
     fseek(disk, 2 * BLOCK_SIZE, SEEK_SET);
-    fread(&dBitmap, sizeof(Bitmap), 1, disk);
+    fread(&dBitmap, sizeof(dBitmap), 1, disk);
 
     int block_number = -1;
     for (int i = 0; i < MAX_NUM_BLOCKS; i++) {

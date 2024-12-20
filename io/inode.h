@@ -30,9 +30,7 @@ typedef struct {
     uint32_t ctime;
     uint32_t mtime;
     uint32_t direct_blocks[NUM_DIRECT_BLOCKS]; 
-    uint32_t indirect_block;    
-    uint32_t double_indirect_block; 
-    uint32_t triple_indirect_block;
+    uint32_t file_type;    
 } Inode;
 
 /*
@@ -44,18 +42,6 @@ size of InodeTable is NUM_INODES*sizeof(Inode) = 8192 bytes, taking up 16 blocks
 typedef struct {
     Inode inodes[NUM_INODES];
 } InodeTable;
-
-/*
-Directory Entry structure
-    inode_number: The inode number of the file
-    filename: The name of the file
-
-size of DirectoryEntry is 32 bytes
-*/
-typedef struct {
-    uint8_t inode_number;
-    char filename[MAX_LEN_FILENAME];  // Null-terminated string
-} DirectoryEntry;
 
 void init_inode(FILE *disk, uint inode_number);
 void read_inode(FILE *disk, uint inode_number, Inode *inode);
